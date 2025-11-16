@@ -16,12 +16,15 @@ const Subscriber = mongoose.model('Subscriber', subscriberSchema, 'Subscribers')
 
 // ✅ Nodemailer transporter
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS
   }
 });
+
 
 // ✅ POST /api/subscribe
 router.post('/api/subscribe', async (req, res) => {
@@ -55,7 +58,7 @@ router.post('/api/subscribe', async (req, res) => {
       <li>💊 Nearby Pharmacies</li>
       <li>🍽️ Restaurants around you</li>
       <li>🏧 ATMs at your service</li>
-      <li⛽ Nearby Fuel Stations</li>
+      <li>⛽ Nearby Fuel Stations</li>
       <li>🔜 And more upcoming features!</li>
     </ul>
 
@@ -76,7 +79,7 @@ router.post('/api/subscribe', async (req, res) => {
     res.status(200).json({ success: true, message: 'Subscription successful!' });
   } catch (err) {
     console.error('❌ Subscription Error:', err);
-    res.status(500).json({ success: false, message: 'Internal server error.' });
+    res.status(500).json({ success: false, message: 'Internal server error.', error: err.message });
   }
 });
 
