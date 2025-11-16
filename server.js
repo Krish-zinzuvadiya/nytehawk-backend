@@ -15,8 +15,18 @@ console.log("SMTP_USER:", process.env.SMTP_USER);
 console.log("SMTP_PASS:", process.env.SMTP_PASS ? "Loaded" : "Missing");
 // ---------------------- MONGODB CONNECTION ----------------------
 mongoose.connect(process.env.MONGO_URL)
-.then(() => console.log("✅ Connected to MongoDB Atlas"))
-.catch(err => console.error("❌ MongoDB Error:", err));
+    .then(() => {
+        console.log("✅ Connected to MongoDB Atlas");
+
+        // Start server ONLY after DB connection
+        app.listen(PORT, () => {
+            console.log(`🚀 Server running on port ${PORT}`);
+        });
+    })
+    .catch(err => {
+        console.error("❌ MongoDB Error:", err);
+    });
+
 
 
 // ---------------------- IMPORT ROUTES ----------------------
@@ -120,7 +130,7 @@ app.get('/api/test', (req, res) => res.send("API is working!"));
 
 // ---------------------- SERVER LISTEN ----------------------
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
 
 
