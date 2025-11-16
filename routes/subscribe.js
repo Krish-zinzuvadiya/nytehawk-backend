@@ -79,8 +79,9 @@ router.post('/api/subscribe', async (req, res) => {
     res.status(200).json({ success: true, message: 'Subscription successful!' });
   } catch (err) {
     console.error('❌ Subscription Error:', err);
-    res.status(500).json({ success: false, message: 'Internal server error.', error: err.message });
+     res.status(500).json({ success: false, message: `Internal server error ${err.message}.`, error: err.message });
   }
 });
 
 module.exports = router;
+
